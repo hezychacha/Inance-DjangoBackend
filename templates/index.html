@@ -236,54 +236,27 @@
         <h2> Our Services </h2>
       </div>
       <div class="row">
+        {% if service %}
+        {% for serv in service  %}
         <div class="col-sm-6 col-md-4 mx-auto">
           <div class="box ">
             <div class="img-box">
-              <img src="{% static 'images/s1.png' %}" alt="" />
+              <img src="{{serv.service_image.url}}" alt="" />
             </div>
             <div class="detail-box">
               <h5>
-                Maintenance
+                {{serv.service_title}}
               </h5>
               <p>
-                when looking at its layout. The point of using Lorem Ipsum is
-                that it has a more-or-less normal
+                {{serv.service_description}}
               </p>
             </div>
           </div>
         </div>
-        <div class="col-sm-6 col-md-4 mx-auto">
-          <div class="box ">
-            <div class="img-box">
-              <img src="{% static 'images/s2.png' %}" alt="" />
-            </div>
-            <div class="detail-box">
-              <h5>
-                Electrical
-              </h5>
-              <p>
-                when looking at its layout. The point of using Lorem Ipsum is
-                that it has a more-or-less normal
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 mx-auto">
-          <div class="box ">
-            <div class="img-box">
-              <img src="{% static 'images/s3.png' %}" alt="" />
-            </div>
-            <div class="detail-box">
-              <h5>
-                Plumbing
-              </h5>
-              <p>
-                when looking at its layout. The point of using Lorem Ipsum is
-                that it has a more-or-less normal
-              </p>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
+        {% else %}
+        <p>No services at the moment</p>
+        {% endif %}
       </div>
       <div class="btn-box">
         <a href="">
