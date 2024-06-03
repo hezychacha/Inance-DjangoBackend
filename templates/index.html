@@ -235,7 +235,7 @@
       <div class="heading_container heading_center">
         <h2> Our Services </h2>
       </div>
-      <div class="row">
+      <div class="row" id='service-container'>
         {% if service %}
         {% for serv in service  %}
         <div class="col-sm-6 col-md-4 mx-auto">
@@ -259,9 +259,12 @@
         {% endif %}
       </div>
       <div class="btn-box">
-        <a href="">
+        {% comment %} <a href="" >
           View More
-        </a>
+        </a> {% endcomment %}
+        <button id="view-more">
+          View More
+        </button>
       </div>
     </div>
   </section>
@@ -537,6 +540,45 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
   <!-- End Google Map -->
 
+
+  <script>
+
+    document.getElementById('view-more').addEventListener('click', function() {
+      fetch('viewmore', {
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+          }
+      })
+      .then(response => response.json())
+      .then(data => {
+          const servicesContainer = document.getElementById('service-container');
+          servicesContainer.innerHTML = ''; // Clear current products
+          //const csrfToken = document.getElementById('csrf-token').value; // Fetch CSRF token
+          data.services.forEach((serv, index) => {
+              const serviceHtml = `
+              <div class="col-sm-6 col-md-4 mx-auto">
+                <div class="box ">
+                  <div class="img-box">
+                    <img src="media/${serv.service_image}" alt="" />
+                  </div>
+                  <div class="detail-box">
+                    <h5>
+                      ${serv.service_title}
+                    </h5>
+                    <p>
+                      ${serv.service_description}
+                    </p>
+                  </div>
+                </div>
+              </div>`;
+              servicesContainer.innerHTML += serviceHtml;
+          });
+          document.getElementById('view-more').style.display = 'none'; // Optionally hide the button after loading all items
+      })
+      .catch(error => console.error('Error:', error));
+  });
+
+  </script>
 
 </body>
 
