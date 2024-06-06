@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -11,6 +12,7 @@ def index(request):
     service = services.objects.all()[:3]
     return render(request,'index.html',{'service':service})
 
+@login_required(login_url='login')
 def contact(request):
     return render(request,'contact.html')
 
@@ -41,9 +43,11 @@ def login(request):
                 auth.login(request,User)
                 if request.GET.get('next',None):
                     return HttpResponseRedirect(request.GET['next'])
-                else:
-                    messages.info(request,'Invalid Credentials')
-                    return render(request,'login.html')
+                return redirect('/')
+            
+            else:
+                messages.info(request,'Invalid Credentials')
+                return render(request,'login.html')
                 
         else:
             return render(request, 'login.html')
@@ -81,3 +85,7 @@ def register(request):
             return render(request,'register.html')
                 
     return render(request,'register.html')
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/')

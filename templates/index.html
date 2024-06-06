@@ -44,12 +44,14 @@
                 Call : +01 123455678990
               </span>
             </a>
+            
             <a href="">
               <i class="fa fa-envelope" aria-hidden="true"></i>
               <span>
                 Email : demo@gmail.com
               </span>
             </a>
+            
           </div>
         </div>
       </div>
@@ -61,10 +63,19 @@
                 Inance
               </span>
             </a>
-
+            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class=""> </span>
             </button>
+            {% if user.is_authenticated %}
+            <div class="user-greeting">
+              Welcome, <span id="username">{{user.username}}</span>
+            </div>
+            {% else %}
+            <div class="user-greeting">
+              Welcome, <span id="username">User</span>
+            </div>
+            {% endif %}
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ">
@@ -81,6 +92,15 @@
                   <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
                 </li>
               </ul>
+            </div>
+            <div class="button-container">
+              {% if user.is_authenticated %}
+              <button class="button register-button"><a href="{% url 'logout' %}">Logout</a></button>
+              {% else %}
+              <button class="button register-button"><a href="{% url 'register' %}">Register</a></button>
+              <button class="button login-button"><a href="{% url 'login' %}">Login</a></button>
+              {% endif %}
+                            
             </div>
           </nav>
         </div>
@@ -398,7 +418,7 @@
   <!-- end client section -->
 
   <!-- contact section -->
-
+  
   <section class="contact_section layout_padding">
     <div class="container">
       <div class="heading_container">
@@ -407,6 +427,7 @@
         </h2>
       </div>
       <div class="row">
+        {% if user.is_authenticated %}
         <div class="col-md-6">
           <form action="">
             <div>
@@ -428,6 +449,9 @@
             </div>
           </form>
         </div>
+        {% else %}
+        <p>Please login first to access the contact form!</p>
+        {% endif %}
         <div class="col-md-6">
           <div class="map_container">
             <div class="map">
@@ -438,6 +462,8 @@
       </div>
     </div>
   </section>
+  
+  
 
   <!-- end contact section -->
 
